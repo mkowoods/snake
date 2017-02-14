@@ -34,7 +34,9 @@ class Apple:
 
     def __init__(self, window_dimensions, unavailable_pixels):
         self.window_dimensions = window_dimensions
-        self.spawn(unavailable_pixels)
+        # self.spawn(unavailable_pixels)
+        self.x = window_dimensions[0] / 2
+        self.y = window_dimensions[1] / 3
 
     def spawn(self, unavailable_pixels):
         x_dim, y_dim = self.window_dimensions
@@ -66,6 +68,7 @@ class SnakeGame:
 
     def change_snake_heading(self, heading):
         self.snake.heading = heading
+
 
     def get_snake_tail(self):
         return self.snake.tail
