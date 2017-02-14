@@ -1,5 +1,4 @@
 from game import SnakeGame
-
 import pygame
 
 window_dimensions = (500, 500)

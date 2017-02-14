@@ -10,6 +10,11 @@ class Snake:
         self.tail = [X1, X2]
         self.window_dimensions = window_dimensions
 
+    def _snake_in_bounds(self, new_head):
+        nhx, nhy = new_head
+        wind_x, wind_y = self.window_dimensions
+        return (0 <= nhx <= wind_x) and (0 <= nhy <= wind_y)
+
     def eatApple(self, n):
         for _ in range(n):
             (x1, y1), (x2, y2) = self.tail[-2:]
@@ -21,11 +26,20 @@ class Snake:
         dx, dy = self.heading
         x, y = self.tail[:1][0]
         new_head = (x + dx, y + dy)
-        if new_head in self.tail:
+        #nhx, nhy = new_head
+        if (new_head in self.tail):
+            print 'ran into itself', (new_head in self.tail)
+            pass
+        elif not(self._snake_in_bounds(new_head)):
             raise Exception
         else:
             self.tail = [new_head] + self.tail[:-1]
 
+    def get_head(self):
+        return self.tail[0]
+
+    def get_dist_to_nearest_border(self):
+        pass
 
 class Apple:
     x = None
@@ -61,14 +75,19 @@ class SnakeGame:
         self.snake.eatApple(3)
 
     def move_snake(self):
+        """
+
+        :return: whether or not it got this reward
+        """
         self.snake.move()
         if self.snake.tail[0] == (self.apple.x, self.apple.y):
             self.snake.eatApple(3)
             self.apple.spawn(self.snake.tail)
+            return True
+        return False
 
     def change_snake_heading(self, heading):
         self.snake.heading = heading
-
 
     def get_snake_tail(self):
         return self.snake.tail
