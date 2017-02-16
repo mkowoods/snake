@@ -1,6 +1,12 @@
 from random import random
 
 
+class RanIntoBody(Exception):
+    pass
+
+class RanIntoWall(Exception):
+    pass
+
 class Snake:
     def __init__(self, window_dimensions):
         self.heading = (0, -1)
@@ -24,14 +30,15 @@ class Snake:
 
     def move(self):
         dx, dy = self.heading
-        x, y = self.tail[:1][0]
+        x, y = self.tail[0] #head
         new_head = (x + dx, y + dy)
         #nhx, nhy = new_head
         if (new_head in self.tail):
-            print 'ran into itself', (new_head in self.tail)
-            pass
+            #print 'ran into itself', (new_head in self.tail)
+
+            raise RanIntoBody
         elif not(self._snake_in_bounds(new_head)):
-            raise Exception
+            raise RanIntoWall
         else:
             self.tail = [new_head] + self.tail[:-1]
 
